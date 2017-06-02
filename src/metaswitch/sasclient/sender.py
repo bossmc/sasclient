@@ -125,7 +125,7 @@ class MessageSender(threading.Thread):
         try:
             self._sas_sock.shutdown(socket.SHUT_RDWR)
             self._sas_sock.close()
-        catch OSError:
+        except OSError:
             # Ignore errors that occur while trying to close a socket.  If the
             # connection has gone away, we don't have anything more to do.
             logger.info("Hit error closing socket - ignore")

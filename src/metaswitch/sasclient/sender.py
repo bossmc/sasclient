@@ -122,8 +122,13 @@ class MessageSender(threading.Thread):
         # It's possible that the socket doesn't even exist yet, so we have nothing to do.
         if self._sas_sock is None:
             return
-        self._sas_sock.shutdown(socket.SHUT_RDWR)
-        self._sas_sock.close()
+        try:
+            self._sas_sock.shutdown(socket.SHUT_RDWR)
+            self._sas_sock.close()
+        catch OSError:
+            # Ignore errors that occur while trying to close a socket.  If the
+            # connection has gone away, we don't have anything more to do.
+            logger.info("Hit error closing socket - ignore")
 
     def send_message(self, message):
         """

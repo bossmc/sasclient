@@ -103,11 +103,12 @@ class MessageSender(threading.Thread):
             logger.info("Connecting to: %s:%s", self._sas_address, self._sas_port)
             self._sas_sock = socket.create_connection((self._sas_address, self._sas_port),
                                                       CONNECTION_TIMEOUT)
-        except IOError:
-            logger.exception(
-                "An I/O error occurred whilst opening socket to %s on port %s",
+        except IOError as e:
+            logger.error(
+                "An I/O error occurred whilst opening socket to %s on port %s: %s",
                 self._sas_address,
-                self._sas_port)
+                self._sas_port,
+                str(e))
         else:
             # Send the Init message, bypassing the queue.
             init = messages.Init(self._system_name, self._system_type, self._resource_identifier)
@@ -118,7 +119,7 @@ class MessageSender(threading.Thread):
                 self._connected = True
 
     def disconnect(self):
-        logger.info("Disconnecting")
+        logger.debug("Disconnecting")
         # It's possible that the socket doesn't even exist yet, so we have nothing to do.
         if self._sas_sock is None:
             return
@@ -149,13 +150,13 @@ class MessageSender(threading.Thread):
                 logger.debug("Successfully sent message")
 
             return True
-        except IOError:
-            logger.exception("An I/O error occurred whilst sending message to %s on port %s.",
-                             self._sas_address, self._sas_port)
+        except IOError as e:
+            logger.error("An I/O error occurred whilst sending message to %s on port %s: %s",
+                         self._sas_address, self._sas_port, str(e))
             return False
-        except socket.timeout:
-            logger.exception("Socket timeout occurred whilst sending message to %s on port %s.",
-                             self._sas_address, self._sas_port)
+        except socket.timeout as e:
+            logger.error("Socket timeout occurred whilst sending message to %s on port %s: %s",
+                         self._sas_address, self._sas_port, str(e))
             return False
 
     def reconnect(self):

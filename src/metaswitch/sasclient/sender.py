@@ -126,10 +126,10 @@ class MessageSender(threading.Thread):
         try:
             self._sas_sock.shutdown(socket.SHUT_RDWR)
             self._sas_sock.close()
-        except Exception:
+        except Exception as e:
             # Ignore errors that occur while trying to close a socket.  If the
             # connection has gone away, we don't have anything more to do.
-            logger.debug("Hit error closing socket - ignore")
+            logger.debug("Hit error closing socket - ignore: %s", str(e))
 
     def send_message(self, message):
         """

@@ -213,7 +213,7 @@ class DataMessage(Message):
         if compress == COMPRESS_ZLIB:
             # Compress with zlib
             enc_value = zlib.compress(enc_value)
-        else if compress is not None:
+        elif compress is not None:
             # Unrecognised compression type
             raise ValueError("Unrecognised compression type: {}".format(compress))
 

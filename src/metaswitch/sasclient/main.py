@@ -94,7 +94,7 @@ class Client(object):
     def send(self, message):
         logger.debug("Queueing message for sending:\n%s", str(message))
         try:
-            self._queue.put(message)
+            self._queue.put(message, block=False)
         except Queue.Full:
             self._worker.set_discarding()
 

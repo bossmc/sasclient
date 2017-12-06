@@ -132,8 +132,8 @@ class MessageSender(threading.Thread):
                 self._discarding = False
             else:
                 msg += ("There is currently no connection to SAS, so all new SAS logs are "
-                        "currently being discarded.  This will continue until the "
-                        "connection to SAS is restored.")
+                        "being discarded.  This will continue until the connection to SAS "
+                        "is restored.")
             logger.error(msg)
 
     def disconnect(self):

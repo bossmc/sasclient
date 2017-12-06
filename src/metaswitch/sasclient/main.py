@@ -10,6 +10,7 @@ from metaswitch.sasclient import sender
 DEFAULT_SAS_PORT = 6761
 
 # The number of messages to queue if no value is provided.
+MINIMUM_QUEUE_LENGTH = 100
 DEFAULT_QUEUE_LENGTH = 10000
 
 logger = logging.getLogger(__name__)
@@ -34,6 +35,7 @@ class Client(object):
         :param start: Whether the SAS client should start immediately
         :param queue_length: The maximum number of messages to queue for sending to SAS
         """
+        queue_length = max(queue_length, MINIMUM_QUEUE_LENGTH)
         self._queue = Queue.Queue(maxsize=queue_length)
         self._stopper = None
         self._worker = None

@@ -77,7 +77,7 @@ class MessageSender(threading.Thread):
                     logger.debug("Failed to send a message, flag that we need to reconnect")
                     self._connected = False
                 elif self._discarding.is_set():
-                    # Successfully sent a message, but discarding was set.
+                    # Successfully sent a message - clear the discarding flag.
                     self._discarding.clear()
 
             self.disconnect()

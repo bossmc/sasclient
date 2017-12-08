@@ -196,7 +196,7 @@ class MessageSender(threading.Thread):
 
         if not self._discarding:
             # We've just filled the queue and started discarding messages.  Make a log.
-            logger.error("The messge queue is full.  Messages queued for sending to "
+            logger.error("The message queue is full.  Messages queued for sending to "
                          "SAS have been discarded")
 
         self._discarding = True
